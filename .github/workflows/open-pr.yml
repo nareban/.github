@@ -4,4 +4,4 @@ on:
       - opened
 jobs:
   autoAssign:
-    uses: nareban/.github/.github/workflows/autoAssign.yml
+    uses: nareban/.github/.github/workflows/autoAssign.yml@main
