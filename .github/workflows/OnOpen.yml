@@ -7,12 +7,5 @@ on:
       - opened
 jobs:
   autoAssign:
-    uses: nareban/.github/.github/workflows/autoAssign.yml@ci-test
+    uses: nareban/.github/.github/workflows/AssignAndAdd.yml@main
     secrets: inherit
-  addToProject:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/add-to-project@v0.1.0
-        with:
-          project-url: ${{ secrets.PROJECT_URL }}
-          github-token: ${{ secrets.MODERATOR_PAT }}
