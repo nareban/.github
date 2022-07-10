@@ -5,7 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - if: |
-          toJSON(github.event.pull_request.assignees) == '[]'
+          (
+            toJSON(github.event.pull_request.assignees) == '[]'
+            || toJSON(github.event.issue.assignees) == '[]'
+          )
           && github.actor != 'dependabot[bot]'
         uses: actions/github-script@v6
         with:
