@@ -10,7 +10,7 @@ jobs:
           github-token: ${{ secrets.MODERATOR_PAT }}
           script: |
             const {PROJECT_ID} = process.env;
-            const query = `query($projectId:String!) {
+            const query = `query($projectId:ID!) {
               node(id:$projectId) {
                 ... on ProjectV2 {
                   items(first: 20) {
