@@ -11,23 +11,18 @@ jobs:
           script: |
             const {PROJECT_ID} = process.env;
             const query = `query($projectId:ID!) {
-              node(id:$projectId) {
-                ... on ProjectV2 {
-                  items(first: 20) {
-                    nodes {
-                      id
-                      content {
-                        ... on DraftIssue {
-                          title
-                        }
-                        ...on Issue {
-                          id
-                          title
-                        }
-                        ...on PullRequest {
-                          id
-                          title
-                        }
+              project: projectv2(id:$projectId) {
+                items(first: 20) {
+                  nodes {
+                    id
+                    content {
+                      ...on Issue {
+                        id
+                        title
+                      }
+                      ...on PullRequest {
+                        id
+                        title
                       }
                     }
                   }
