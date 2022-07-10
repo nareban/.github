@@ -7,4 +7,9 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            console.info(context);
+            await github.rest.issues.addAssignees({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              assignees: [context.actor]
+            });
