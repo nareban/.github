@@ -1,6 +1,6 @@
 on: [workflow_call]
 jobs:
-  build:
+  add:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
@@ -26,4 +26,4 @@ jobs:
               projectId: PROJECT_ID,
             };
             const result = await github.graphql(query, variables);
-            console.log(result);
+            console.log(JSON.stringify(result, null, 2));

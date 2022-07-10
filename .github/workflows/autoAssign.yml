@@ -1,6 +1,6 @@
 on: [workflow_call]
 jobs:
-  autoAssign:
+  assign:
     if: |
       github.event.action == 'opened'
       && toJSON(github.event.pull_request.assignees) == '[]'
