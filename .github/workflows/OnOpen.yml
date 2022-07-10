@@ -1,0 +1,18 @@
+on:
+  issues:
+    types:
+      - opened
+  pull_request:
+    types:
+      - opened
+jobs:
+  autoAssign:
+    uses: nareban/.github/.github/workflows/autoAssign.yml@ci-test
+    secrets: inherit
+  addToProject:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v0.1.0
+        with:
+          project-url: ${{ secrets.PROJECT_URL }}
+          github-token: ${{ secrets.MODERATOR_PAT }}
