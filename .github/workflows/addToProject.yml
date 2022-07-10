@@ -1,12 +1,11 @@
 on:
   workflow_call:
     inputs:
-      projectNumber:
+      PROJECT_NUMBER:
         required: true
         type: number
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo Project ${{ inputs.projectNumber }}
+      - run: echo Project ${{ inputs.PROJECT_NUMBER }}

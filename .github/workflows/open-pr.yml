@@ -1,0 +1,7 @@
+on:
+  pull_request:
+    types:
+      - opened
+jobs:
+  autoAssign:
+    uses: nareban/.github/.github/workflows/autoAssign.yml
