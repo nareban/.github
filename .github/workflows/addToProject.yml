@@ -12,7 +12,7 @@ jobs:
             if (!(Number.isInteger(projectNumber) && 0 < projectNumber)) {
               throw new Error(`Invalid PROJECT_NUMBER: ${process.env.PROJECT_NUMBER}`);
             }
-            const query = `query($organization:String!, $projectNumber:Number!) {
+            const query = `query($organization:String!, $projectNumber:Int!) {
               organization(login:$organization){
                 projectV2(number:$projectNumber) {
                   id
