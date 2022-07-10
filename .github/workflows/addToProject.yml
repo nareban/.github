@@ -5,24 +5,25 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         env:
-          PROJECT_NUMBER: ${{ secrets.PROJECT_NUMBER }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
         with:
           github-token: ${{ secrets.MODERATOR_PAT }}
           script: |
-            const projectNumber = Number.parseInt(process.env.PROJECT_NUMBER, 10);
-            if (!(Number.isInteger(projectNumber) && 0 < projectNumber)) {
-              throw new Error(`Invalid PROJECT_NUMBER: ${process.env.PROJECT_NUMBER}`);
-            }
-            const query = `query($organization:String!, $projectNumber:Int!) {
-              organization(login:$organization){
-                projectV2(number:$projectNumber) {
-                  id
+            const {PROJECT_ID} = process.env;
+            const query = `query($projectId:String!) {
+              node(id:$projectId) {
+                ... on ProjectV2 {
+                  items(first: 20) {
+                    nodes {
+                      id
+                      content
+                    }
+                  }
                 }
               }
             }`;
             const variables = {
-              organization: context.payload.organization.login,
-              projectNumber,
+              projectId: PROJECT_ID,
             };
             const result = await github.graphql(query, variables);
             console.log(result);
