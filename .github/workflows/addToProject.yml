@@ -16,7 +16,19 @@ jobs:
                   items(first: 20) {
                     nodes {
                       id
-                      content
+                      content {
+                        ... on DraftIssue {
+                          title
+                        }
+                        ...on Issue {
+                          id
+                          title
+                        }
+                        ...on PullRequest {
+                          id
+                          title
+                        }
+                      }
                     }
                   }
                 }
