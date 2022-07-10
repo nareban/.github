@@ -1,8 +1,0 @@
-on: [pull_request]
-jobs:
-  autoAssign:
-    uses: nareban/.github/.github/workflows/autoAssign.yml@ci-test
-    secrets: inherit
-  addToProject:
-    uses: nareban/.github/.github/workflows/addToProject.yml@ci-test
-    secrets: inherit
