@@ -1,13 +1,15 @@
 on: [workflow_call]
 jobs:
   autoAssign:
-    if: ${{ github.actor != 'dependabot[bot]' && toJSON(github.event.pull_request.assignees) == '[]' }}
+    if: |
+      github.event.action == 'opened'
+      && toJSON(github.event.pull_request.assignees) == '[]'
+      && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
         with:
           script: |
-            console.info(context);
             await github.rest.issues.addAssignees({
               issue_number: context.issue.number,
               owner: context.repo.owner,

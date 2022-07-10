@@ -1,11 +1,27 @@
-on:
-  workflow_call:
-    inputs:
-      PROJECT_NUMBER:
-        required: true
-        type: number
+on: [workflow_call]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo Project ${{ inputs.PROJECT_NUMBER }}
+      - uses: actions/github-script@v6
+        env:
+          PROJECT_NUMBER: ${{ secrets.PROJECT_NUMBER }}
+        with:
+          script: |
+            const projectNumber = Number.parseInt(process.env.PROJECT_NUMBER, 10);
+            if (!(Number.isInteger(projectNumber) && 0 < projectNumber)) {
+              throw new Error(`Invalid PROJECT_NUMBER: ${process.env.PROJECT_NUMBER}`);
+            }
+            const query = `query($organization:String!, $projectNumber:Number!) {
+              organization(login:$organization){
+                projectV2(number:$projectNumber) {
+                  id
+                }
+              }
+            }`;
+            const variables = {
+              organization: context.payload.organization.login,
+              projectNumber,
+            };
+            const result = await github.graphql(query, variables);
+            console.log(result);
