@@ -7,6 +7,7 @@ jobs:
         env:
           PROJECT_NUMBER: ${{ secrets.PROJECT_NUMBER }}
         with:
+          github-token: ${{ secrets.MODERATOR_PAT }}
           script: |
             const projectNumber = Number.parseInt(process.env.PROJECT_NUMBER, 10);
             if (!(Number.isInteger(projectNumber) && 0 < projectNumber)) {
