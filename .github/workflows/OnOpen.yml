@@ -6,6 +6,6 @@ on:
     types:
       - opened
 jobs:
-  autoAssign:
+  automation:
     uses: nareban/.github/.github/workflows/AssignAndAdd.yml@main
     secrets: inherit
