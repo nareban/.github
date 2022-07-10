@@ -1,7 +1,9 @@
-on:
-  pull_request:
-    types:
-      - opened
+# on:
+  # pull_request:
+    # types:
+    #   - opened
+on: [pull_request]
 jobs:
   autoAssign:
-    uses: nareban/.github/.github/workflows/autoAssign.yml@main
+    uses: nareban/.github/.github/workflows/autoAssign.yml@ci-test
+    secrets: inherit

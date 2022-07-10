@@ -1,17 +1,10 @@
-on:
-  workflow_call:
-    inputs:
-      GITHUB_TOKEN:
-        required: true
-        type: string
+on: [workflow_call]
 jobs:
   autoAssign:
     if: ${{ github.actor != 'dependabot[bot]' && toJSON(github.event.pull_request.assignees) == '[]' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
-        env:
-          GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         with:
           script: |
             console.info(context);
