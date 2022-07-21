@@ -16,17 +16,27 @@ jobs:
               repo: context.repo.repo,
               assignees: [context.actor]
             });
-            const pr = context.payload.pull_request;
-            if (pr) {
-              console.info(pr);
-            }
       - if: github.event.pull_request
         uses: actions/github-script@v6
         with:
           script: |
             const pr = context.payload.pull_request;
             if (pr) {
-              console.info(pr);
+              const branchName = pr.head.ref;
+              const matched = (/^(\d+)-/).exec(branchName);
+              if (matched) {
+                const issueNumber = matched[1];
+                const prefix = `GH-${issueNumber}: `;
+                if (!pr.title.startsWith(prefix)) {
+                  const newTitle = pr.title.replace(/^\s+gh\s*-\d+\s*:\s*/i, prefix);
+                  await github.rest.issues.addAssignees({
+                    issue_number: context.issue.number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: newTitle,
+                  });
+                }
+              }
             }
       - uses: actions/add-to-project@v0.1.0
         with:
