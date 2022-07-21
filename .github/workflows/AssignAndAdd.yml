@@ -20,6 +20,14 @@ jobs:
             if (pr) {
               console.info(pr);
             }
+      - if: github.event.pull_request
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (pr) {
+              console.info(pr);
+            }
       - uses: actions/add-to-project@v0.1.0
         with:
           project-url: ${{ secrets.PROJECT_URL }}
