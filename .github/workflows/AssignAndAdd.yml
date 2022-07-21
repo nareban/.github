@@ -16,6 +16,10 @@ jobs:
               repo: context.repo.repo,
               assignees: [context.actor]
             });
+            const pr = context.payload.pull_request;
+            if (pr) {
+              console.info(pr);
+            }
       - uses: actions/add-to-project@v0.1.0
         with:
           project-url: ${{ secrets.PROJECT_URL }}
