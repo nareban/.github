@@ -29,7 +29,7 @@ jobs:
                 const prefix = `GH-${issueNumber}: `;
                 if (!pr.title.startsWith(prefix)) {
                   const newTitle = pr.title.replace(/^\s+gh\s*-\d+\s*:\s*/i, prefix);
-                  await github.rest.issues.addAssignees({
+                  await github.rest.issues.update({
                     issue_number: context.issue.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
