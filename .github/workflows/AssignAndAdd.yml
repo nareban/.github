@@ -22,20 +22,16 @@ jobs:
           script: |
             const pr = context.payload.pull_request;
             if (pr) {
-              const branchName = pr.head.ref;
-              console.info({branchName});
-              const matched = (/^(\d+)-/).exec(branchName);
+              const matched = (/^(\d+)-/).exec(pr.head.ref);
               if (matched) {
                 const issueNumber = matched[1];
                 const prefix = `GH-${issueNumber}: `;
-              console.info({title: pr.title, prefix});
                 if (!pr.title.startsWith(prefix)) {
-                  const newTitle = pr.title.replace(/^\s+gh\s*-\d+\s*:\s*/i, prefix);
                   const params = {
                     issue_number: context.issue.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    title: newTitle,
+                    title: pr.title.replace(/^(\s+gh\s*-\d+\s*:)?\s*/i, prefix),
                   };
                   console.info(params);
                   await github.rest.issues.update(params);
