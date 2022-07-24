@@ -23,18 +23,22 @@ jobs:
             const pr = context.payload.pull_request;
             if (pr) {
               const branchName = pr.head.ref;
+              console.info({branchName});
               const matched = (/^(\d+)-/).exec(branchName);
               if (matched) {
                 const issueNumber = matched[1];
                 const prefix = `GH-${issueNumber}: `;
+              console.info({title: pr.title, prefix});
                 if (!pr.title.startsWith(prefix)) {
                   const newTitle = pr.title.replace(/^\s+gh\s*-\d+\s*:\s*/i, prefix);
-                  await github.rest.issues.update({
+                  const params = {
                     issue_number: context.issue.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     title: newTitle,
-                  });
+                  };
+                  console.info(params);
+                  await github.rest.issues.update(params);
                 }
               }
             }
