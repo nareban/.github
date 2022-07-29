@@ -28,7 +28,7 @@ jobs:
                 const prefix = `GH-${issueNumber}: `;
                 if (!pr.title.startsWith(prefix)) {
                   const params = {
-                    issue_number: issueNumber,
+                    issue_number: context.issue.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     title: pr.title.replace(/^(\s+gh\s*-\d+\s*:)?\s*/i, prefix),
@@ -40,7 +40,7 @@ jobs:
                 if (!linkPattern.test(pr.body)) {
                   const docUrl = 'https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue';
                   const params = {
-                    issue_number: issueNumber,
+                    issue_number: context.issue.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     body: `The PR body has no [links](docUrl) to #${issueNumber}.`,
