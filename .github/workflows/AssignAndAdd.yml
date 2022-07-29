@@ -28,13 +28,25 @@ jobs:
                 const prefix = `GH-${issueNumber}: `;
                 if (!pr.title.startsWith(prefix)) {
                   const params = {
-                    issue_number: context.issue.number,
+                    issue_number: issueNumber,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     title: pr.title.replace(/^(\s+gh\s*-\d+\s*:)?\s*/i, prefix),
                   };
                   console.info(params);
                   await github.rest.issues.update(params);
+                }
+                const linkPattern = new RegExp(`(close[sd]?|fix(e[sd])?|resolve[sd]?)\s+#${issueNumber}`);
+                if (!listPattern.test(pr.body)) {
+                  const docUrl = 'https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue';
+                  const params = {
+                    issue_number: issueNumber,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: `The PR body has no [links](docUrl) to #${issueNumber}.`,
+                  };
+                  console.info(params);
+                  await github.rest.issues.createComment(params);
                 }
               }
             }
