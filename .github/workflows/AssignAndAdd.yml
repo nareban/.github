@@ -36,7 +36,7 @@ jobs:
                   console.info(params);
                   await github.rest.issues.update(params);
                 }
-                const linkPattern = new RegExp(`(close[sd]?|fix(e[sd])?|resolve[sd]?)\s+#${issueNumber}`);
+                const linkPattern = new RegExp(`(close[sd]?|fix(e[sd])?|resolve[sd]?)\s+#${issueNumber}`, 'i');
                 if (!linkPattern.test(pr.body)) {
                   const docUrl = 'https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue';
                   const params = {
