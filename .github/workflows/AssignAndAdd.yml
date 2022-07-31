@@ -20,6 +20,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            const { GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env;
             const pr = context.payload.pull_request;
             if (pr) {
               const matched = (/^(\d+)-/).exec(pr.head.ref);
@@ -43,7 +44,10 @@ jobs:
                     issue_number: context.issue.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    body: `The PR body has no [links](docUrl) to #${issueNumber}.`,
+                    body: [
+                      `The PR body has no [links](docUrl) to #${issueNumber}.`,
+                      `<sup>Commented from [${GITHUB_REPOSITORY}/run#${GITHUB_RUN_ID}](https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})</sup>`,
+                    ].join('\n'),
                   };
                   console.info(params);
                   await github.rest.issues.createComment(params);
